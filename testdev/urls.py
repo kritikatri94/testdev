@@ -20,5 +20,6 @@ from myapp import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('insert', views.insert, name='insert'),
+    path('show/<int:id>/', views.show, name='show'),
     path('admin/', admin.site.urls),
 ]

@@ -51,11 +51,46 @@
     <tbody>
         {% for member in all_members %}
         <tr>
-            <td>{{ member.firstname }}</td>
+            <td>
+              <a href="/show/{{member.id}}/">{{ member.firstname }}</a>
+            </td>
             <td>{{ member.lastname }}</td>
             <td>{{ member.address  }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<script type = "text/javascript">
+  $(document).ready(function(){
+      $('#table').DataTable();
+  
+      $('#submit').on('click', function(){
+          $firstname = $('#firstname').val();
+          $lastname = $('#lastname').val();
+          $address = $('#address').val();
+  
+          if($firstname == "" || $lastname == "" || $address == ""){
+              alert("Please complete field");
+          }else{
+              $.ajax({
+                  type: "POST",
+                  url: "insert",
+                  data:{
+                      firstname: $firstname,
+                      lastname: $lastname,
+                      address: $address,
+                      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                  },
+                  success: function(){
+                      alert('Save Data');
+                      $('#firstname').val('');
+                      $('#lastname').val('');
+                      $('#address').val('');
+                      window.location = "/";
+                  }
+              });
+          }
+      });
+  });
+  </script>
 {% endblock %}
