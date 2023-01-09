@@ -16,15 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from myapp import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('insert', views.insert, name='insert'),
-    path('show/<int:id>/', views.show, name='show'),
-    path('show/<str:id>/', views.show, name='show'),
-    path('update/', views.update, name='update'),
-    path('signup/', views.userSignup, name='userSignup'),
-    path('login/', views.userLogin, name='userLogin'),
-    path('logout/', views.userLogout, name='userLogout'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('insert', views.InsertView.as_view(), name='insert'),
+    path('show/<int:pk>/', login_required(views.ShowView.as_view()), name='show-int'),
+    path('show/<str:pk>/', login_required(views.ShowView.as_view()), name='show-str'),
+    path('update/', views.UpdateView.as_view(), name='update'),
+    path('signup/', views.UsersignupView.as_view(), name='userSignup'),
+    path('login/', views.UserloginView.as_view(), name='userLogin'),
+    path('logout/', views.UserlogoutView.as_view(), name='userLogout'),
     path('admin/', admin.site.urls),
 ]

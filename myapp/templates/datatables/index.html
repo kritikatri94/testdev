@@ -5,6 +5,14 @@
   Add New
 </button>
 </p>
+
+{% if messages %}
+  {% for message in messages %}
+      <div class="alert alert-success">
+          {{message}}
+      </div>
+  {% endfor %}
+{% endif %}
 <!-- Modal -->
 <div class="modal fade" id="addnewmember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -28,7 +36,6 @@
                 <label>Address</label>
                 <input type="text" id="address" class="form-control"/>
             </div>
-         
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -46,16 +53,76 @@
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Address</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for member in all_members %}
+        <!-- Update Modal -->
+        <div class="modal fade" id="updatemember{{member.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{member.id}}" name="id" class="form-control"/>
+                    <div class="mb-3">
+                        <label>Firstname</label>
+                          <input type="text" value="{{member.firstname}}" name="firstname" class="form-control"/>
+                    </div>        
+                    <div class="mb-3">
+                        <label>Lastname</label>
+                        <input type="text" value="{{member.lastname}}" name="lastname" class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Address</label>
+                        <input type="text" value="{{member.address}}" name="address" class="form-control"/>
+                    </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="update" id="submit">Update</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deletemember{{member.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete
+              </div>
+              <div class="modal-footer d-flex">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" class="mx-1">
+                  {% csrf_token %}
+                  <input type="hidden" value="{{member.id}}" name="id" class="form-control"/>
+                  <button type="submit" class="btn btn-danger" name="delete" id="submit">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
         <tr>
             <td>
               <a href="/show/{{member.id}}/">{{ member.firstname }}</a>
             </td>
             <td>{{ member.lastname }}</td>
             <td>{{ member.address  }}</td>
+            <td>
+              <a href="" class="btn btn-sm btn-success"  data-bs-toggle="modal" data-bs-target="#updatemember{{member.id}}">Update</a>
+              <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deletemember{{member.id}}">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
