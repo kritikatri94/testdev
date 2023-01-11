@@ -1,18 +1,41 @@
 {% extends 'datatables/base.html' %}
 {% block body %}
-<p>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addnewmember" style="width:300px;">
-  Add New
-</button>
-</p>
 
 {% if messages %}
   {% for message in messages %}
-      <div class="alert alert-success">
-          {{message}}
+      <div class="badge bg-success py-2 mx-auto" style="width: 20%;">
+        <i class="fa-solid fa-check mx-1"></i> {{message}}
       </div>
   {% endfor %}
 {% endif %}
+
+<style>
+  .dataTables_length, .dataTables_filter{
+    margin-bottom: 1rem;
+  }
+  .dataTables_paginate{
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+  .dataTables_info{
+    font-size: 14px;
+  }
+  .dataTables_paginate span a{
+    background-color: aqua!important;
+  }
+  a{
+    text-decoration: none;
+  }
+  label{
+    font-size: 14px;
+  }
+</style>
+
+<p class="mt-5">
+  <button type="button" class="btn btn-primary px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#addnewmember">
+    <i class="fa-solid fa-user mx-1"></i> Add New Members
+  </button>
+</p>
 <!-- Modal -->
 <div class="modal fade" id="addnewmember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -46,9 +69,9 @@
   </div>
 </div>
  
-<hr style="border-top:1px solid #000; clear:both;"/>
-<table id = "table" class = "table table-bordered">
-    <thead class="alert-warning">
+<div class="table-responsive mt-5">
+  <table id="table" class="table table-bordered table-sm">
+    <thead class="bg-primary text-white">
         <tr>
             <th>Firstname</th>
             <th>Lastname</th>
@@ -115,18 +138,23 @@
         </div>
         <tr>
             <td>
-              <a href="/show/{{member.id}}/">{{ member.firstname }}</a>
+              <a href="{% url 'show-int' member.id %}">{{ member.firstname }}</a>
             </td>
             <td>{{ member.lastname }}</td>
             <td>{{ member.address  }}</td>
             <td>
-              <a href="" class="btn btn-sm btn-success"  data-bs-toggle="modal" data-bs-target="#updatemember{{member.id}}">Update</a>
-              <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deletemember{{member.id}}">Delete</a>
+              <a href="" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#updatemember{{member.id}}">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deletemember{{member.id}}">
+                <i class="fa-solid fa-trash"></i>
+              </a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+</div>
 <script type = "text/javascript">
   $(document).ready(function(){
       $('#table').DataTable();

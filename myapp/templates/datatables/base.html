@@ -13,7 +13,19 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
+        .top-head{
+            display:flex;
+            justify-content: space-between;
+        }
+        @media screen and (max-width:600px){
+            .top-head{
+                display:block;
+            }
+        }
     </style>
+    <!-- Fontawesome -->
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/solid.css" integrity="sha384-zW4IamLJkgRrzYFdEixnM4hbhScK8Q/B0aYHqhGxQf6jrj1pxNaEzS7n65YVdFsW" crossorigin="anonymous"/>
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/fontawesome.css" integrity="sha384-caIQK8zI/KcZVq2HWogTcGbcxd9c0Alp2SDcy0eOHIjipClzJQ8HEkSNcoXtKq+w" crossorigin="anonymous"/>  
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -21,13 +33,15 @@
 <script src = "https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <div class="container mt-5">
     <div class="row">
-        <div class="d-flex justify-content-between">
-            <h3 class="text-primary">Python Django How To Use DataTables with Insert Data Jquery Ajax</h3>
+        <div class="top-head mb-3">
+            <h5 class="text-primary">Python Django How To Use DataTables with Insert Data Jquery Ajax</h5>
             {% if user.is_authenticated %}
                 <form action="/logout/" method="post">
                     {% csrf_token %}
-                    <button class="btn btn-danger">logout</button>
+                    <button class="btn btn-danger px-4 shadow-sm btn-sm"><i class="fa-solid fa-arrow-right-from-bracket mx-1"></i> Logout</button>
                 </form>
+            {% else %}
+                <a href="{% url 'userLogin' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-lock mx-1"></i> Login</a>
             {% endif %}
         </div>
         <hr style="border-top:1px dotted #ccc;"/>
