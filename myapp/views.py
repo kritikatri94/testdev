@@ -43,7 +43,7 @@ class InsertView(View):
         member = Member(firstname=request.POST['firstname'], lastname=request.POST['lastname'],
                     address=request.POST['address'])
         member.save()
-        return redirect('/')
+        return redirect('index')
 
 
 '''@login_required
@@ -140,7 +140,7 @@ class UserloginView(View):
         user = authenticate(request,username=username,password=password)
         if user is not None and valuenext=='':
             login(request,user)
-            return redirect('/')
+            return redirect('index')
         if user is not None and valuenext !='':
             login(request, user)
             return redirect(valuenext)
@@ -160,6 +160,5 @@ class UserloginView(View):
 class UserlogoutView(View):
     def post(self,request):
         logout(request)
-        return redirect('/login/')
-
+        return redirect('userLogin')
     
