@@ -5,7 +5,6 @@ from .forms import SigupForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.views import View
-from django.views.generic import ListView
 
 
 '''def index(request):
@@ -138,6 +137,12 @@ class UserloginView(View):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request,username=username,password=password)
+        if not username and not password:
+            return render(request,'login.html',{'username_password_required':True,'username':username})
+        if not username:
+            return render(request,'login.html',{'username_required':True,'username':username})
+        if not password:
+            return render(request,'login.html',{'password_required':True,'username':username})
         if user is not None and valuenext=='':
             login(request,user)
             return redirect('index')
@@ -145,7 +150,7 @@ class UserloginView(View):
             login(request, user)
             return redirect(valuenext)
         else:
-            messages.error(request,'username or password is invalid')
+            messages.error(request,'Username or Password is invalid')
         return render(request,'login.html')
     
     def get(self,request):
