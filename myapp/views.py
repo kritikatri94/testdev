@@ -5,6 +5,7 @@ from .forms import SigupForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.views import View
+from myapp.helpers import check_unique_name
 
 
 '''def index(request):
@@ -15,20 +16,13 @@ class IndexView(View):
     def get(self,request):
         all_member = Member.objects.all()
         return render(request,'datatables/index.html',{'all_members':all_member})
-
+    
     def post(self,request):
         all_member = Member.objects.all()
-        if 'update' in request.POST:
-            update_mem = Member.objects.get(id=request.POST.get('id'))
-            update_mem.firstname = request.POST.get('firstname')
-            update_mem.lastname = request.POST.get('lastname')
-            update_mem.address = request.POST.get('address')
-            update_mem.save()
-            messages.success(request,'Member Updated !!')
-        elif 'delete' in request.POST:
+        if 'delete' in request.POST:
             Member.objects.get(id=request.POST.get('id')).delete()
             messages.success(request,'Member Deleted !!')
-        return render(request,'datatables/index.html',{'all_members':all_member})
+            return render(request,'datatables/index.html',{'all_members':all_member})
 
 
 '''def insert(request):
@@ -166,4 +160,17 @@ class UserlogoutView(View):
     def post(self,request):
         logout(request)
         return redirect('userLogin')
-    
+
+
+class UpdatememberView(View):
+    def post(self,request):
+        id = request.POST.get('id')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        if check_unique_name(id, firstname, lastname):
+            member = Member.objects.get(id=id)
+            member.firstname = firstname
+            member.lastname = lastname
+            member.save()
+            return JsonResponse({'status':200})
+        return JsonResponse({'status':401})
