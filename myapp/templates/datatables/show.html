@@ -1,21 +1,29 @@
 {% extends 'datatables/base.html' %}
 
+<style>
+    .show-data{
+        border-radius: 10px!important;
+        box-shadow: -20px -20px 25px rgba(0, 0, 0, 0.05), 20px 20px 25px rgba(0, 0, 0, 0.05);
+    }
+</style>
 
 {% block body %}
-    <div class="d-flex justify-content-between">
-        <div class="">
-            <div class="px-5 py-3 border">Firstname - {{member.firstname}}</div>
-            <br>
-            <div class="px-5 py-3 border">Lastname - {{member.lastname}}</div>
-            <br>
-            <div class="px-5 py-3 border">Address - {{member.address}}</div>
+    <div class="p-5 show-data bg-white">
+        <div class="d-flex justify-content-between">
+            <div class="">
+                <div class="px-5 py-3 border" style="border-radius:10px;">Firstname - {{member.firstname}}</div>
+                <br>
+                <div class="px-5 py-3 border" style="border-radius:10px;">Lastname - {{member.lastname}}</div>
+                <br>
+                <div class="px-5 py-3 border" style="border-radius:10px;">Address - {{member.address}}</div>
+            </div>
+            <div class="">
+                <a href="/" class="btn btn-primary px-3 btn-sm"><i class="fa-solid fa-circle-left mx-1"></i> Back</a>
+            </div>
         </div>
-        <div class="">
-            <a href="/" class="btn btn-primary px-5">Back</a>
+        <div class="mt-5">
+            <a class="btn btn-primary px-3 float-end btn-sm" data-bs-toggle="modal" data-bs-target="#addnewmember"><i class="fa-solid fa-plus mx-1"></i> Add New</a>
         </div>
-    </div>
-    <div class="mt-5">
-        <a class="btn btn-primary px-5 float-end" data-bs-toggle="modal" data-bs-target="#addnewmember">Add New</a>
     </div>
 
     <!-- Modal -->

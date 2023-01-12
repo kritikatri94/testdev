@@ -20,8 +20,9 @@
   .dataTables_info{
     font-size: 14px;
   }
-  .dataTables_paginate span a{
-    background-color: aqua!important;
+  .table-responsive{
+    border-radius: 10px;
+    box-shadow: -20px -20px 25px rgba(0, 0, 0, 0.05), 20px 20px 25px rgba(0, 0, 0, 0.05);
   }
   a{
     text-decoration: none;
@@ -31,11 +32,6 @@
   }
 </style>
 
-<p class="mt-5">
-  <button type="button" class="btn btn-primary px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#addnewmember">
-    <i class="fa-solid fa-user mx-1"></i> Add New Members
-  </button>
-</p>
 <!-- Modal -->
 <div class="modal fade" id="addnewmember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -69,7 +65,15 @@
   </div>
 </div>
  
-<div class="table-responsive mt-5">
+<div class="table-responsive px-5 pb-3 bg-white">
+  <p class="mt-5">
+    <button type="button" class="btn btn-primary px-3 py-2 shadow-sm btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addnewmember">
+      <i class="fa-solid fa-user mx-1"></i> Add New Members
+    </button>
+  </p>
+  <br>
+  <br>
+  <br>
   <table id="table" class="table table-bordered table-sm">
     <thead class="bg-primary text-white">
         <tr>

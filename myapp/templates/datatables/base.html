@@ -13,14 +13,16 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
+        body{
+            background-color: #F5F8FD;
+        }
+        .nav-bar{
+            box-shadow: -20px -20px 25px rgba(0, 0, 0, 0.05), 20px 20px 25px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
         .top-head{
             display:flex;
             justify-content: space-between;
-        }
-        @media screen and (max-width:600px){
-            .top-head{
-                display:block;
-            }
         }
     </style>
     <!-- Fontawesome -->
@@ -33,18 +35,22 @@
 <script src = "https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <div class="container mt-5">
     <div class="row">
-        <div class="top-head mb-3">
-            <h5 class="text-primary">Python Django How To Use DataTables with Insert Data Jquery Ajax</h5>
+        <div class="top-head mb-3 nav-bar p-3 bg-white">
+            <div>
+                <a href="{% url 'index' %}" class="btn btn-sm btn-primary px-3">Home</a>
+            </div>
             {% if user.is_authenticated %}
                 <form action="/logout/" method="post">
                     {% csrf_token %}
                     <button class="btn btn-danger px-4 shadow-sm btn-sm"><i class="fa-solid fa-arrow-right-from-bracket mx-1"></i> Logout</button>
                 </form>
             {% else %}
-                <a href="{% url 'userLogin' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-lock mx-1"></i> Login</a>
+                <div>
+                    <a href="{% url 'userSignup' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-user mx-1"></i> Signup</a>
+                    <a href="{% url 'userLogin' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-lock mx-1"></i> Login</a>
+                </div>
             {% endif %}
         </div>
-        <hr style="border-top:1px dotted #ccc;"/>
         {% block body %}
 
         {% endblock %}
