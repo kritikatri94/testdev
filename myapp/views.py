@@ -33,10 +33,15 @@ class IndexView(View):
 
 class InsertView(View):
     def post(self,request):
-        member = Member(firstname=request.POST['firstname'], lastname=request.POST['lastname'],
-                    address=request.POST['address'])
+        if Member.objects.filter(firstname=request.POST['firstname'], lastname=request.POST['lastname']).exists():
+            return JsonResponse({'status':401})
+        member = Member(
+                    firstname=request.POST['firstname'],
+                    lastname=request.POST['lastname'],
+                    address=request.POST['address']
+                    )
         member.save()
-        return redirect('index')
+        return JsonResponse({'status':200})
 
 
 '''@login_required
@@ -77,12 +82,14 @@ class ShowView(View):
 
 class UpdateView(View):
     def post(self,request):
+        if Member.objects.filter(firstname=request.POST['firstname'], lastname=request.POST['lastname']).exists():
+            return JsonResponse({'status':401})
         update_mem = Member.objects.get(id=request.POST.get('id'))
         update_mem.firstname = request.POST.get('firstname')
         update_mem.lastname = request.POST.get('lastname')
         update_mem.address = request.POST.get('address')
         update_mem.save()
-        return JsonResponse({'sucess':200})
+        return JsonResponse({'status':200})
 
 
 '''def userSignup(request):

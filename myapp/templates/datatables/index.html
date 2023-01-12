@@ -45,15 +45,18 @@
             {% csrf_token %}
             <div class="mb-3">
                 <label>Firstname</label>
-                   <input type="text" id="firstname" class="form-control"/>
+                   <input type="text" id="firstname" class="form-control" />
+                   <p id="error_1_id_firstname" class="invalid-feedback d-none"><strong>This field is required.</strong></p>
             </div>        
             <div class="mb-3">
                 <label>Lastname</label>
                 <input type="text" id="lastname" class="form-control"/>
+                <p id="error_1_id_lastname" class="invalid-feedback d-none"><strong>This field is required.</strong></p>
             </div>
             <div class="mb-3">
                 <label>Address</label>
                 <input type="text" id="address" class="form-control"/>
+                <p id="error_1_id_address" class="invalid-feedback d-none"><strong>This field is required.</strong></p>
             </div>
       </div>
       <div class="modal-footer">
@@ -145,13 +148,40 @@
       $('#table').DataTable();
   
       $('#submit').on('click', function(){
+          $("#error_1_id_firstname").text('This field is required.');
+          $("#error_1_id_lastname").text('This field is required.');
+          $("#firstname").removeClass('is-invalid');
+          $("#error_1_id_firstname").addClass('d-none');
+          $("#lastname").removeClass('is-invalid');
+          $("#error_1_id_lastname").addClass('d-none');
+          $("#address").removeClass('is-invalid');
+          $("#error_1_id_address").addClass('d-none');
+
           $firstname = $('#firstname').val();
           $lastname = $('#lastname').val();
           $address = $('#address').val();
   
-          if($firstname == "" || $lastname == "" || $address == ""){
-              alert("Please complete field");
-          }else{
+          if($firstname === "" && $lastname === "" && $address === ""){
+              $("#firstname").addClass('is-invalid');
+              $("#error_1_id_firstname").removeClass('d-none');
+              $("#lastname").addClass('is-invalid');
+              $("#error_1_id_lastname").removeClass('d-none');
+              $("#address").addClass('is-invalid');
+              $("#error_1_id_address").removeClass('d-none');
+          }
+          else if($firstname === ""){
+            $("#firstname").addClass('is-invalid');
+              $("#error_1_id_firstname").removeClass('d-none');
+          }
+          else if($lastname === ""){
+            $("#lastname").addClass('is-invalid');
+              $("#error_1_id_lastname").removeClass('d-none');
+          }
+          else if($address === ""){
+            $("#address").addClass('is-invalid');
+            $("#error_1_id_address").removeClass('d-none');
+          }
+          else{
               $.ajax({
                   type: "POST",
                   url: "insert",
@@ -161,12 +191,20 @@
                       address: $address,
                       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                   },
-                  success: function(){
-                      alert('Save Data');
-                      $('#firstname').val('');
-                      $('#lastname').val('');
-                      $('#address').val('');
-                      window.location = "/";
+                  success: function(data){
+                      if(data.status === 200){
+                        location.reload();
+                        alert('Member Added !!');
+                        location.reload();
+                      }
+                      else if(data.status === 401){
+                        $("#firstname").addClass('is-invalid');
+                        $("#error_1_id_firstname").removeClass('d-none');
+                        $("#error_1_id_firstname").text('This name is already exist');
+                        $("#lastname").addClass('is-invalid');
+                        $("#error_1_id_lastname").removeClass('d-none');
+                        $("#error_1_id_lastname").text('This name is already exist');
+                      }
                   }
               });
           }
