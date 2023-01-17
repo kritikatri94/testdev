@@ -46,8 +46,12 @@
                 </form>
             {% else %}
                 <div>
-                    <a href="{% url 'userSignup' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-user mx-1"></i> Signup</a>
-                    <a href="{% url 'userLogin' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-lock mx-1"></i> Login</a>
+                    <form action="/login/" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger px-4 shadow-sm btn-sm" name="system-cred"><i class="fa-solid fa-lock mx-1"></i> Login with system credentials</button>
+                    </form>
+                    <!-- <a href="{% url 'userSignup' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-user mx-1"></i> Signup</a> -->
+                    <!-- <a href="{% url 'userLogin' %}" class="btn btn-success btn-sm px-3"><i class="fa-solid fa-lock mx-1"></i> Login with system</a> -->
                 </div>
             {% endif %}
         </div>
