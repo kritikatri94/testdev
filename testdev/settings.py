@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
     'crispy_forms',
+    "windows_auth",
 ]
 
 MIDDLEWARE = [
@@ -47,6 +48,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
+    'windows_auth.middleware.UserSyncMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -131,3 +134,17 @@ LOGIN_REDIRECT_URL = ''
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+AUTHENTICATION_BACKENDS = [
+    "windows_auth.backends.WindowsAuthBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+WAUTH_DOMAINS = {
+    "<your domain's NetBIOS Name> (EXAMPLE)": {
+        "SERVER": "<domain FQDN> (example.local)",
+        "SEARCH_BASE": "<search base> (DC=example,DC=local)",
+        "USERNAME": "<bind account username>",
+        "PASSWORD": "<bind account password>",
+    }
+}
